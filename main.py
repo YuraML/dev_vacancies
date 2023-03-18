@@ -1,10 +1,10 @@
-from get_superjob_vacancies import get_superjob
-from get_hhru_vacancies import get_hhru
+from get_superjob_vacancies import get_superjob_vacancies
+from get_hhru_vacancies import get_hhru_vacancies
 
 
 def main():
-    hhru_vacancies = get_hhru()
-    superjob_vacancies = get_superjob()
+    hhru_vacancies = get_hhru_vacancies()
+    superjob_vacancies = get_superjob_vacancies()
     print(hhru_vacancies)
     print()
     print(superjob_vacancies)

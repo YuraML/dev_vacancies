@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from funcs import draw_table, get_language_salary, languages
 
 
-def get_superjob():
+def get_superjob_vacancies():
     title = 'SuperJob Moscow'
     load_dotenv()
     superjob_api_key = os.environ['SUPERJOB_API_KEY']

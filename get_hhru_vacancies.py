@@ -3,7 +3,7 @@ import requests
 from funcs import draw_table, get_language_salary, languages
 
 
-def get_hhru():
+def get_hhru_vacancies():
     title = 'HeadHunter Moscow'
     all_languages_salary_table = []
     city_id = 1
