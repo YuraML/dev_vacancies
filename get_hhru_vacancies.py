@@ -1,10 +1,11 @@
 import requests
 
-from funcs import draw_table, get_language_salary, languages
+from contextlib import suppress
+
+from funcs import generate_language_salary_from_hhru, LANGUAGES as languages
 
 
-def get_hhru_vacancies():
-    title = 'HeadHunter Moscow'
+def process_hhru_vacancies_and_generate_a_table():
     all_languages_salary_table = []
     city_id = 1
     period = 30
@@ -21,19 +22,17 @@ def get_hhru_vacancies():
                       'period': period,
                       'page': page
                       }
-            try:
+
+            with suppress(requests.exceptions):
                 page_response = requests.get(url, params=params)
                 page_response.raise_for_status()
                 page_payload = page_response.json()
                 page_number = page_payload['pages']
                 vacancies_on_page = page_payload['items']
-                for vacancy in vacancies_on_page:
-                    all_vacancies.append(vacancy)
+                all_vacancies.extend(vacancies_on_page)
                 page += 1
-            except requests.exceptions:
-                continue
 
-        language_salary = get_language_salary(language, all_vacancies, title)
+        language_salary = generate_language_salary_from_hhru(language, all_vacancies)
         all_languages_salary_table.append(language_salary)
 
-    return draw_table(all_languages_salary_table, title)
+    return all_languages_salary_table

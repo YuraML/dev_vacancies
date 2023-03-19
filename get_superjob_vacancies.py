@@ -1,15 +1,11 @@
-import os
 import requests
 
-from dotenv import load_dotenv
+from contextlib import suppress
 
-from funcs import draw_table, get_language_salary, languages
+from funcs import generate_language_salary_from_superjob, LANGUAGES as languages
 
 
-def get_superjob_vacancies():
-    title = 'SuperJob Moscow'
-    load_dotenv()
-    superjob_api_key = os.environ['SUPERJOB_API_KEY']
+def process_superjob_vacancies_and_generate_a_table(superjob_api_key):
     all_languages_salary_table = []
     url = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {
@@ -30,7 +26,7 @@ def get_superjob_vacancies():
                       'keyword': language,
                       'count': vacancies_count
                       }
-            try:
+            with suppress(requests.exceptions):
                 page_response = requests.get(url, headers=headers, params=params)
                 page_response.raise_for_status()
                 page_payload = page_response.json()
@@ -45,10 +41,8 @@ def get_superjob_vacancies():
                 for vacancy in vacancies_on_page:
                     all_vacancies.append(vacancy)
                 page += 1
-            except requests.exceptions:
-                continue
 
-        language_salary = get_language_salary(language, all_vacancies, title)
+        language_salary = generate_language_salary_from_superjob(language, all_vacancies)
         all_languages_salary_table.append(language_salary)
 
-    return draw_table(all_languages_salary_table, title)
+    return all_languages_salary_table
