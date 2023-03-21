@@ -3,7 +3,8 @@ import os
 
 from contextlib import suppress
 
-from funcs import draw_table, generate_language_salary_from_superjob, LANGUAGES as languages
+from funcs import draw_table, generate_language_salary_from_superjob,\
+    LANGUAGES as languages
 
 
 def process_superjob_vacancies(superjob_api_key, language):
@@ -18,12 +19,13 @@ def process_superjob_vacancies(superjob_api_key, language):
     page_number = 1
 
     while page < page_number:
-        params = {'town': city_id,
-                  'catalogues': profession_id,
-                  'page': page,
-                  'keyword': language,
-                  'count': vacancies_count
-                  }
+        params = {
+            'town': city_id,
+            'catalogues': profession_id,
+            'page': page,
+            'keyword': language,
+            'count': vacancies_count
+        }
 
         with suppress(requests.exceptions):
             page_response = requests.get(url, headers=headers, params=params)
@@ -47,11 +49,9 @@ def process_superjob_vacancies(superjob_api_key, language):
 def generate_superjob_table():
     all_languages_salary_table = []
     superjob_api_key = os.environ['SUPERJOB_API_KEY']
-    for language in languages:
-        hhru_vacancies = process_superjob_vacancies(superjob_api_key, language)
-        language_salary = generate_language_salary_from_superjob(language, hhru_vacancies)
+    for lang in languages:
+        superjob_vacs = process_superjob_vacancies(superjob_api_key, lang)
+        language_salary = generate_language_salary_from_superjob(lang, superjob_vacs)
         all_languages_salary_table.append(language_salary)
     table = draw_table(all_languages_salary_table, 'SuperJob Moscow')
     return table
-
-

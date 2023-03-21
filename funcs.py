@@ -35,20 +35,17 @@ def predict_rub_salary_for_hhru(vacancy):
 def generate_language_salary_from_hhru(language, all_vacancies):
     salaries = []
     vacancies_in_total = len(all_vacancies)
-    salaries_in_total = 0
-
     for vacancy in all_vacancies:
-        salary_hh = predict_rub_salary_for_hhru(vacancy)
-        if salary_hh:
-            salaries.append(salary_hh)
-            salaries_in_total += salary_hh
+        hhru_salary = predict_rub_salary_for_hhru(vacancy)
+        if hhru_salary:
+            salaries.append(hhru_salary)
 
     processed_salaries = len(salaries)
     language_average_salary = {
         language: {
             "vacancies_found": vacancies_in_total,
             "vacancies_processed": processed_salaries,
-            "average_salary": int(salaries_in_total / processed_salaries) if processed_salaries else None
+            "average_salary": int(sum(salaries) / processed_salaries) if processed_salaries else None
         }
     }
     return language_average_salary
@@ -57,20 +54,17 @@ def generate_language_salary_from_hhru(language, all_vacancies):
 def generate_language_salary_from_superjob(language, all_vacancies):
     salaries = []
     vacancies_in_total = len(all_vacancies)
-    salaries_in_total = 0
-
     for vacancy in all_vacancies:
-        salary_superjob = predict_rub_salary_for_superjob(vacancy)
-        if salary_superjob:
-            salaries.append(salary_superjob)
-            salaries_in_total += salary_superjob
+        superjob_salary = predict_rub_salary_for_superjob(vacancy)
+        if superjob_salary:
+            salaries.append(superjob_salary)
 
     processed_salaries = len(salaries)
     language_average_salary = {
         language: {
             "vacancies_found": vacancies_in_total,
             "vacancies_processed": processed_salaries,
-            "average_salary": int(salaries_in_total / processed_salaries) if processed_salaries != 0 else None
+            "average_salary": int(sum(salaries) / processed_salaries) if processed_salaries else None
         }
     }
     return language_average_salary
