@@ -3,8 +3,7 @@ import os
 
 from contextlib import suppress
 
-from funcs import draw_table, generate_language_salary_from_superjob,\
-    LANGUAGES as languages
+from funcs import generate_language_salary_from_superjob, LANGUAGES as languages
 
 
 def process_superjob_vacancies(superjob_api_key, language):
@@ -46,12 +45,11 @@ def process_superjob_vacancies(superjob_api_key, language):
     return all_vacancies
 
 
-def generate_superjob_table():
-    all_languages_salary_table = []
+def formalize_all_vacanices_for_superjob_table():
+    all_languages_formalized_vacanices = []
     superjob_api_key = os.environ['SUPERJOB_API_KEY']
     for lang in languages:
         superjob_vacs = process_superjob_vacancies(superjob_api_key, lang)
         language_salary = generate_language_salary_from_superjob(lang, superjob_vacs)
-        all_languages_salary_table.append(language_salary)
-    table = draw_table(all_languages_salary_table, 'SuperJob Moscow')
-    return table
+        all_languages_formalized_vacanices.append(language_salary)
+    return all_languages_formalized_vacanices

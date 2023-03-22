@@ -2,8 +2,7 @@ import requests
 
 from contextlib import suppress
 
-from funcs import draw_table, generate_language_salary_from_hhru, \
-    LANGUAGES as languages
+from funcs import generate_language_salary_from_hhru, LANGUAGES as languages
 
 
 def process_hhru_vacancies(language):
@@ -34,11 +33,10 @@ def process_hhru_vacancies(language):
     return all_vacancies
 
 
-def generate_hhru_table():
-    all_languages_salary_table = []
+def formalize_all_vacanices_for_hhru_table():
+    all_languages_formalized_vacanices = []
     for lang in languages:
         hhru_vacs = process_hhru_vacancies(lang)
         language_salary = generate_language_salary_from_hhru(lang, hhru_vacs)
-        all_languages_salary_table.append(language_salary)
-    table = draw_table(all_languages_salary_table, 'HeadHunter Moscow')
-    return table
+        all_languages_formalized_vacanices.append(language_salary)
+    return all_languages_formalized_vacanices
