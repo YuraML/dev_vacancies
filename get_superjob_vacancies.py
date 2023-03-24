@@ -1,5 +1,4 @@
 import requests
-import os
 
 from contextlib import suppress
 
@@ -45,9 +44,8 @@ def process_superjob_vacancies(superjob_api_key, language):
     return all_vacancies
 
 
-def formalize_all_vacanices_for_superjob_table():
+def formalize_all_vacanices_for_superjob_table(superjob_api_key):
     all_languages_formalized_vacanices = []
-    superjob_api_key = os.environ['SUPERJOB_API_KEY']
     for lang in languages:
         superjob_vacs = process_superjob_vacancies(superjob_api_key, lang)
         language_salary = generate_language_salary_from_superjob(lang, superjob_vacs)

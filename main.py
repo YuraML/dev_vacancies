@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 
 
@@ -8,9 +10,10 @@ from get_hhru_vacancies import formalize_all_vacanices_for_hhru_table
 
 def main():
     load_dotenv()
+    superjob_api_key = os.environ['SUPERJOB_API_KEY']
     hhru_formalized_vacancies = formalize_all_vacanices_for_hhru_table()
     hhru_vacancies_table = draw_table(hhru_formalized_vacancies, 'HeadHunter Moscow')
-    superjob_formalized_vacancies = formalize_all_vacanices_for_superjob_table()
+    superjob_formalized_vacancies = formalize_all_vacanices_for_superjob_table(superjob_api_key)
     superjob_vacancies_table = draw_table(superjob_formalized_vacancies, 'SuperJob Moscow')
     print(hhru_vacancies_table)
     print()
